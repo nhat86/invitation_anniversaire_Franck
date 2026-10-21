@@ -331,7 +331,14 @@ body::before {
 }
 .scene-card.is-visible .card { opacity: 1; transform: none; }
 
-.card .invite-label { margin-bottom: 1.6rem; }
+.card .invite-label { margin-bottom: 0.35rem; }
+
+.invite-sub {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--grey);
+  margin-bottom: 1.6rem;
+}
 
 .name {
   font-family: var(--font-title);
