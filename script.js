@@ -16,18 +16,15 @@
  *    Recopiez chaque identifiant ci-dessous.
  * 3) GOOGLE_FORM_ACTION = même URL avec /formResponse au lieu de /viewform.
  */
-const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSeAKTleAISM6AoA3-V0OfsWCSBYkVY8pRR-HLBtI-TJBx7AMQ/formResponse";
+const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSfArb0CY6DdpXBs_o7eNSgxyYQ02YGg0kMA19NgpczB2_sedg/formResponse";
 const GOOGLE_FORM_ENTRIES = {
-  name: "entry.886880296",    // « Votre nom »
-  present: "entry.789516920", // « Serez-vous présent(e) ? » (Oui/Non)
-  adults: "entry.845308764",  // « Adultes » (18 ans et +)
-  teens: "entry.799495062",   // « Ados » (12–17 ans)
-  kids: "entry.503537446",    // « Enfants » (0–11 ans)
-  // Optionnel : si vous ajoutez deux questions « Âge(s) des ados » et
-  // « Âge(s) des enfants » (réponse courte, NON obligatoires) dans le
-  // Google Form, collez leurs entry.xxx ci-dessous.
-  teensAges: "",
-  kidsAges: "",
+  name: "entry.1759205426",    // « Votre nom »
+  present: "entry.2047217881", // « Serez-vous présent(e) ? » (Oui/Non)
+  adults: "entry.683937936",   // « Adultes » (18 ans et +)
+  teens: "entry.564571259",    // « Ados (12 à 17 ans) »
+  teensAges: "entry.686050080",// « ÂGE(S) DES ADOS »
+  kids: "entry.130676979",     // « Enfants (moins de 12 ans) »
+  kidsAges: "entry.1729234962",// « ÂGE(S) DES ENFANTS »
 };
 // Libellés exacts des options Oui/Non du Google Form (ne pas modifier).
 const GOOGLE_FORM_YES = "Oui, je serai présent(e)";
