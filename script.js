@@ -146,6 +146,61 @@ const RSVP_INTRO_NO =
   const formAction = GOOGLE_FORM_ACTION.trim();
   const formUrl = GOOGLE_FORM_URL.trim();
 
+  /* Envoie les réponses au Google Form.
+     1) fetch POST "no-cors" : la requête part, la réponse est opaque
+        (illisible) — c'est normal, l'envoi est bien enregistré.
+     2) Secours : soumission dans une iframe cachée. */
+  function googleParams(payload) {
+    const p = new URLSearchParams();
+    Object.keys(GOOGLE_FORM_ENTRIES).forEach(function (key) {
+      const entryId = GOOGLE_FORM_ENTRIES[key].trim();
+      if (entryId) p.append(entryId, payload[key] || "");
+    });
+    const presentEntry = GOOGLE_FORM_ENTRIES.present.trim();
+    if (presentEntry) p.append(presentEntry + "_sentinel", "");
+    p.append("fvv", "1");
+    p.append("pageHistory", "0,1");
+    return p;
+  }
+
+  function submitToGoogle(payload) {
+    const params = googleParams(payload);
+    if (window.fetch && window.URLSearchParams) {
+      fetch(formAction, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      }).catch(function () {
+        iframeFallback(params);
+      });
+    } else {
+      iframeFallback(params);
+    }
+  }
+
+  function iframeFallback(params) {
+    const iframe = document.createElement("iframe");
+    iframe.name = "gform-target";
+    iframe.style.display = "none";
+    document.body.appendChild(iframe);
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = formAction;
+    form.target = "gform-target";
+    form.style.display = "none";
+    params.forEach(function (value, name) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+  }
+
   if (formAction) {
     /* ===== MODE 1 : Google Form intégré =====
        Envoi silencieux vers Google (iframe cachée) : l'invité
@@ -174,45 +229,7 @@ const RSVP_INTRO_NO =
         teensAges: present ? v.teensAges : "",
         kidsAges: present ? v.kidsAges : "",
       };
-      const iframe = document.createElement("iframe");
-      iframe.name = "gform-target";
-      iframe.style.display = "none";
-      document.body.appendChild(iframe);
-
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = formAction;
-      form.target = "gform-target";
-      form.style.display = "none";
-      Object.keys(GOOGLE_FORM_ENTRIES).forEach(function (key) {
-        const entryId = GOOGLE_FORM_ENTRIES[key].trim();
-        if (!entryId) return;
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = entryId;
-        input.value = payload[key] || "";
-        form.appendChild(input);
-      });
-      // Champs techniques exigés par Google Forms :
-      // "_sentinel" accompagne la question Oui/Non, "fvv" et
-      // "pageHistory" (2 sections) sont obligatoires.
-      const presentEntry = GOOGLE_FORM_ENTRIES.present.trim();
-      if (presentEntry) {
-        const s = document.createElement("input");
-        s.type = "hidden";
-        s.name = presentEntry + "_sentinel";
-        s.value = "";
-        form.appendChild(s);
-      }
-      [["fvv", "1"], ["pageHistory", "0,1"]].forEach(function (pair) {
-        const t = document.createElement("input");
-        t.type = "hidden";
-        t.name = pair[0];
-        t.value = pair[1];
-        form.appendChild(t);
-      });
-      document.body.appendChild(form);
-      form.submit();
+      submitToGoogle(payload);
 
       // Confirmation visuelle pour l'invité
       rsvpForm.hidden = true;
