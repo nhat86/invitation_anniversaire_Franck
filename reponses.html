@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Récapitulatif des réponses — Anniversaire Franck &amp; Andy</title>
+  <meta name="description" content="Récapitulatif des confirmations de présence (page organisateurs).">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#080808">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="scene scene-card" style="align-items:flex-start;">
+    <article class="card card-wide is-visible">
+
+      <div class="symbols" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 4 L21 20 H3 Z"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+      </div>
+
+      <h1 class="admin-title">Récapitulatif des réponses</h1>
+      <p class="admin-sub">
+        Page réservée aux organisateurs. Pour chaque confirmation reçue sur WhatsApp,
+        collez le message ci-dessous : la réponse est ajoutée automatiquement au tableau.
+      </p>
+
+      <label class="field" for="paste">
+        <span>Collez un message de confirmation reçu sur WhatsApp</span>
+        <textarea id="paste" rows="6" placeholder="Bonjour ! Je confirme ma présence…&#10;Nom : …&#10;Adultes : …&#10;Ados : …&#10;Enfants : …"></textarea>
+      </label>
+
+      <button id="parse-btn" class="btn btn-secondary" type="button">AJOUTER AU TABLEAU</button>
+      <p id="parse-hint" class="parse-hint" hidden>Message ajouté. Vous pouvez vérifier ou corriger la ligne dans le tableau.</p>
+
+      <div class="table-wrap">
+        <table id="table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Adultes</th>
+              <th>Ados</th>
+              <th>Âges ados</th>
+              <th>Enfants</th>
+              <th>Âges enfants</th>
+              <th aria-label="Actions"></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+          <tfoot>
+            <tr>
+              <th>Total</th>
+              <th id="t-adults">0</th>
+              <th id="t-teens">0</th>
+              <th></th>
+              <th id="t-kids">0</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <p class="admin-total">Total des invités : <strong id="t-all">0</strong> personne(s)</p>
+
+      <div class="admin-actions">
+        <button id="add-row" class="admin-link" type="button">+ Ajouter une ligne manuellement</button>
+        <button id="export-btn" class="btn btn-primary" type="button">EXPORTER VERS EXCEL (.CSV)</button>
+        <button id="clear-btn" class="admin-link danger" type="button">Tout effacer</button>
+      </div>
+
+      <p class="admin-note">
+        Le tableau est conservé dans ce navigateur (localStorage) : vous pouvez revenir
+        compléter la liste au fil des réponses. Le fichier .csv s'ouvre directement
+        dans Excel (séparateur « ; », accents pris en charge).
+      </p>
+
+    </article>
+  </main>
+
+  <script src="reponses.js" defer></script>
+</body>
+</html>
