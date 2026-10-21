@@ -77,7 +77,6 @@ const RSVP_INTRO_NO =
   const envelopeScene = document.getElementById("envelope-scene");
   const cardScene = document.getElementById("card-scene");
   const envelope = document.getElementById("envelope");
-  const skipBtn = document.getElementById("skip-intro");
   const codeGate = document.getElementById("code-gate");
   const codeInput = document.getElementById("invite-code");
   const codeError = document.getElementById("code-error");
@@ -252,7 +251,7 @@ const RSVP_INTRO_NO =
       rsvpModal.hidden = true;
       // État final : formulaire masqué, confirmation affichée sur la carte
       rsvpForm.hidden = true;
-      rsvpBtn.hidden = true;
+      (rsvpBtn.closest(".shooter-row") || rsvpBtn).hidden = true;
       rsvpNote.hidden = true;
       rsvpSuccess.hidden = false;
       rsvpSuccess.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" });
@@ -372,6 +371,82 @@ const RSVP_INTRO_NO =
     }
   }
 
+  /* ---------- Garde tireur : coup de feu au clic ---------- */
+
+  const guardShooter = document.querySelector(".guard-shooter");
+  const gateGuard = document.querySelector(".gate-guard");
+  let audioCtx = null;
+
+  /* Son de tir synthétisé (bruit blanc filtré, décroissance rapide) —
+     aucun fichier audio nécessaire. */
+  function gunshot() {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      const dur = 0.3;
+      const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * dur, audioCtx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) {
+        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2.4);
+      }
+      const src = audioCtx.createBufferSource();
+      src.buffer = buf;
+      const lp = audioCtx.createBiquadFilter();
+      lp.type = "lowpass";
+      lp.frequency.value = 1100;
+      const g = audioCtx.createGain();
+      g.gain.value = 0.85;
+      src.connect(lp);
+      lp.connect(g);
+      g.connect(audioCtx.destination);
+      src.start();
+    } catch (e) { /* audio indisponible : on ignore */ }
+  }
+
+  /* Rafale de 5 coups (code d'invitation incorrect) */
+  function gunburst() {
+    for (let i = 0; i < 5; i++) {
+      setTimeout(gunshot, i * 95);
+    }
+  }
+
+  if (guardShooter && rsvpBtn) {
+    rsvpBtn.addEventListener("click", function () {
+      guardShooter.classList.remove("fire");
+      void guardShooter.offsetWidth; // relance l'animation
+      guardShooter.classList.add("fire");
+      gunshot();
+    });
+  }
+
+  /* ---------- Musique de fond (fichier musique.mp3 facultatif) ---------- */
+
+  const bgm = document.getElementById("bgm");
+  const musicToggle = document.getElementById("music-toggle");
+
+  function musicPlay() {
+    if (!bgm) return;
+    bgm.play().then(function () {
+      musicToggle.hidden = false;
+      musicToggle.classList.add("on");
+    }).catch(function () { /* fichier absent ou lecture refusée */ });
+  }
+
+  if (bgm && musicToggle) {
+    bgm.addEventListener("error", function () { musicToggle.hidden = true; });
+    bgm.addEventListener("canplay", function () { musicToggle.hidden = false; });
+    musicToggle.addEventListener("click", function () {
+      if (bgm.paused) {
+        musicPlay();
+      } else {
+        bgm.pause();
+        musicToggle.classList.remove("on");
+      }
+    });
+  }
+
   /* ---------- Code d'invitation ---------- */
 
   const expectedCode = INVITATION_CODE.trim().toLowerCase();
@@ -393,10 +468,13 @@ const RSVP_INTRO_NO =
     } else {
       codeError.hidden = false;
       envelope.classList.add("shake");
+      if (gateGuard) gateGuard.classList.add("firing");
+      gunburst();
       codeInput.focus();
       setTimeout(function () {
         envelope.classList.remove("shake");
-      }, 500);
+        if (gateGuard) gateGuard.classList.remove("firing");
+      }, 650);
     }
     return ok;
   }
@@ -405,7 +483,10 @@ const RSVP_INTRO_NO =
     if (e.key === "Enter") {
       e.preventDefault();
       openEnvelope();
+      return;
     }
+    // Un coup de feu à chaque caractère tapé (ou effacé)
+    if (e.key.length === 1 || e.key === "Backspace") gunshot();
   });
   codeInput.addEventListener("input", function () {
     codeError.hidden = true;
@@ -434,6 +515,7 @@ const RSVP_INTRO_NO =
     if (!checkCode()) return;
     opened = true;
     envelope.disabled = true;
+    musicPlay();
 
     if (reducedMotion) {
       showCard();
@@ -451,10 +533,4 @@ const RSVP_INTRO_NO =
   }
 
   envelope.addEventListener("click", openEnvelope);
-  skipBtn.addEventListener("click", function () {
-    if (opened) return;
-    if (!checkCode()) return;
-    opened = true;
-    showCard();
-  });
 })();
