@@ -270,7 +270,7 @@ const RSVP_INTRO_NO =
     rsvpError.hidden = true;
     copyBtn.hidden = true;
     rsvpNote.textContent =
-      "Le bouton ouvrira un court formulaire Google pour confirmer votre présence.";
+      "Le bouton ouvrira un court formulaire Google pour confirmer vos présences.";
     rsvpNote.hidden = false;
     rsvpBtn.href = formUrl;
   } else {

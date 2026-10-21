@@ -350,6 +350,11 @@ body::before {
   line-height: 1.1;
 }
 
+.sg-shape {
+  color: var(--pink);
+  text-shadow: 0 0 10px rgba(255, 22, 136, 0.75);
+}
+
 .age {
   font-family: var(--font-title);
   font-weight: 700;
