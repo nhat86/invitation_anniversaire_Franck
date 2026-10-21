@@ -184,6 +184,17 @@
 
       </article>
     </section>
+
+    <!-- Popup de confirmation -->
+    <div id="rsvp-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="rsvp-modal-title">
+      <div class="modal-backdrop" data-close></div>
+      <div class="modal-box">
+        <svg class="modal-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.2 14.4-4-4 1.7-1.7 2.3 2.3 5.7-5.7 1.7 1.7z"/></svg>
+        <p id="rsvp-modal-title" class="rsvp-success-title">Réponse envoyée — merci !</p>
+        <p class="rsvp-success-text">Votre confirmation a bien été transmise aux organisateurs.<br>À très vite, le 20 février 2027.</p>
+        <button id="rsvp-close" class="btn btn-secondary" type="button">FERMER</button>
+      </div>
+    </div>
   </main>
 
   <noscript>

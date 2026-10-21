@@ -75,6 +75,8 @@ const RSVP_INTRO_NO =
   const rsvpNote = document.getElementById("rsvp-note");
   const rsvpError = document.getElementById("rsvp-error");
   const rsvpSuccess = document.getElementById("rsvp-success");
+  const rsvpModal = document.getElementById("rsvp-modal");
+  const rsvpClose = document.getElementById("rsvp-close");
   const copyBtn = document.getElementById("copy-btn");
   const rsvpForm = document.querySelector(".rsvp-form");
 
@@ -231,12 +233,26 @@ const RSVP_INTRO_NO =
       };
       submitToGoogle(payload);
 
-      // Confirmation visuelle pour l'invité
+      // Popup de confirmation au centre de l'écran
+      rsvpModal.hidden = false;
+      rsvpClose.focus();
+    });
+
+    function closeModal() {
+      rsvpModal.hidden = true;
+      // État final : formulaire masqué, confirmation affichée sur la carte
       rsvpForm.hidden = true;
       rsvpBtn.hidden = true;
       rsvpNote.hidden = true;
       rsvpSuccess.hidden = false;
       rsvpSuccess.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" });
+    }
+    rsvpClose.addEventListener("click", closeModal);
+    rsvpModal.addEventListener("click", function (e) {
+      if (e.target.hasAttribute("data-close")) closeModal();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !rsvpModal.hidden) closeModal();
     });
   } else if (formUrl) {
     /* ===== MODE 1bis : lien Google Form simple ===== */

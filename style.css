@@ -650,6 +650,50 @@ body::before {
   margin-top: 0.4rem;
 }
 
+/* ---------- Popup de confirmation ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+}
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn 0.25s ease;
+}
+.modal-box {
+  position: relative;
+  background: linear-gradient(180deg, #161616, #0a0a0a);
+  border: 1px solid var(--pink);
+  border-radius: 16px;
+  box-shadow: 0 0 50px rgba(255, 22, 136, 0.45);
+  padding: 2rem 1.6rem 1.6rem;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+  animation: popIn 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.modal-check {
+  width: 44px;
+  height: 44px;
+  fill: var(--pink-light);
+  filter: drop-shadow(0 0 10px rgba(255, 22, 136, 0.8));
+}
+.modal-box .btn-secondary { margin: 1.2rem 0 0; }
+
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.85) translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* =====================================================
    PAGE RÉPONSES (organisateurs)
    ===================================================== */
