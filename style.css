@@ -337,7 +337,7 @@ body::before {
   font-size: 0.9rem;
   font-style: italic;
   color: var(--grey);
-  margin-bottom: 1.6rem;
+  margin-bottom: 2.4rem;
 }
 
 .name {
