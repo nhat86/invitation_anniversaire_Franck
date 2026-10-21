@@ -55,6 +55,16 @@ const GOOGLE_FORM_URL = "";
  */
 const WHATSAPP_NUMBER = "33652168826";
 
+/*
+ * CODE D'INVITATION :
+ * Seuls les invités qui connaissent ce code peuvent ouvrir l'enveloppe.
+ * Insensible à la casse et aux espaces autour.
+ * Laisser vide ("") pour désactiver la demande de code.
+ * Note : protection légère — sur un site statique, le code reste lisible
+ * dans le code source de la page.
+ */
+const INVITATION_CODE = "wrede5018";
+
 /* Premières lignes du message WhatsApp (mode 2 uniquement ; le détail des
    participants est ajouté automatiquement d'après le formulaire). */
 const RSVP_INTRO_YES =
@@ -71,6 +81,9 @@ const RSVP_INTRO_NO =
   const cardScene = document.getElementById("card-scene");
   const envelope = document.getElementById("envelope");
   const skipBtn = document.getElementById("skip-intro");
+  const codeGate = document.getElementById("code-gate");
+  const codeInput = document.getElementById("invite-code");
+  const codeError = document.getElementById("code-error");
   const rsvpBtn = document.getElementById("rsvp-btn");
   const rsvpNote = document.getElementById("rsvp-note");
   const rsvpError = document.getElementById("rsvp-error");
@@ -362,6 +375,45 @@ const RSVP_INTRO_NO =
     }
   }
 
+  /* ---------- Code d'invitation ---------- */
+
+  const expectedCode = INVITATION_CODE.trim().toLowerCase();
+  const hint = document.getElementById("hint");
+
+  if (!expectedCode || sessionStorage.getItem("invite-ok") === "1") {
+    // Code désactivé ou déjà validé dans cet onglet : champ masqué.
+    codeGate.hidden = true;
+    hint.textContent = "Cliquez pour ouvrir";
+  }
+
+  function checkCode() {
+    if (!expectedCode) return true;
+    if (sessionStorage.getItem("invite-ok") === "1") return true;
+    const ok = codeInput.value.trim().toLowerCase() === expectedCode;
+    if (ok) {
+      sessionStorage.setItem("invite-ok", "1");
+      codeError.hidden = true;
+    } else {
+      codeError.hidden = false;
+      envelope.classList.add("shake");
+      codeInput.focus();
+      setTimeout(function () {
+        envelope.classList.remove("shake");
+      }, 500);
+    }
+    return ok;
+  }
+
+  codeInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      openEnvelope();
+    }
+  });
+  codeInput.addEventListener("input", function () {
+    codeError.hidden = true;
+  });
+
   /* ---------- Ouverture de l'enveloppe ---------- */
 
   let opened = false;
@@ -382,6 +434,7 @@ const RSVP_INTRO_NO =
 
   function openEnvelope() {
     if (opened) return;
+    if (!checkCode()) return;
     opened = true;
     envelope.disabled = true;
 
@@ -403,6 +456,7 @@ const RSVP_INTRO_NO =
   envelope.addEventListener("click", openEnvelope);
   skipBtn.addEventListener("click", function () {
     if (opened) return;
+    if (!checkCode()) return;
     opened = true;
     showCard();
   });

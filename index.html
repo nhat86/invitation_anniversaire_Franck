@@ -44,6 +44,14 @@
         <p class="brand">SQUID GAME</p>
         <p class="invite-label">Vous êtes invité(e)</p>
 
+        <div class="code-gate" id="code-gate">
+          <label class="field" for="invite-code">
+            <span>Code d'invitation</span>
+            <input id="invite-code" type="password" autocomplete="off" placeholder="••••••" aria-describedby="code-error">
+          </label>
+          <p id="code-error" class="rsvp-error" hidden>Code incorrect — réessayez.</p>
+        </div>
+
         <button id="envelope" class="envelope" type="button" aria-label="Ouvrir l'enveloppe pour découvrir l'invitation">
           <span class="env-glow" aria-hidden="true"></span>
           <span class="env-back" aria-hidden="true"></span>
@@ -59,7 +67,7 @@
           <span class="env-flap" aria-hidden="true"></span>
         </button>
 
-        <p class="hint" aria-hidden="true">Cliquez pour ouvrir</p>
+        <p class="hint" id="hint" aria-hidden="true">Entrez le code, puis cliquez pour ouvrir</p>
         <button id="skip-intro" class="skip" type="button">Voir directement l'invitation</button>
       </div>
     </section>

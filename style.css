@@ -258,6 +258,25 @@ body::before {
 .scene-envelope { transition: opacity 0.35s ease; }
 .scene-envelope.is-gone { opacity: 0; pointer-events: none; }
 
+/* ---------- Code d'invitation ---------- */
+.code-gate { margin-bottom: 1.8rem; }
+.code-gate .field { text-align: center; margin-bottom: 0.4rem; }
+.code-gate input {
+  max-width: 200px;
+  text-align: center;
+  letter-spacing: 0.2em;
+}
+.code-gate .rsvp-error { margin-bottom: 0; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.envelope.shake { animation: shake 0.45s ease; }
+
 /* ---------- Indice "cliquez" ---------- */
 .hint {
   margin-top: 1.6rem;
