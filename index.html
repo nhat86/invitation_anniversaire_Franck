@@ -17,7 +17,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -76,6 +76,8 @@
     <section id="card-scene" class="scene scene-card" hidden aria-label="Invitation">
       <article class="card">
 
+        <p class="card-tag" aria-hidden="true">UN JEU UNIQUE<br>UNE SOIRÉE<br>INOUBLIABLE</p>
+
         <div class="symbols" aria-hidden="true">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>
           <svg viewBox="0 0 24 24"><path d="M12 4 L21 20 H3 Z"/></svg>
@@ -101,25 +103,45 @@
           <span class="divider-line"></span>
         </div>
 
-        <p class="tagline">Deux générations. Une soirée. Un seul jeu.</p>
+        <p class="tagline">Deux générations. Une soirée. <span class="brush">Un seul jeu.</span></p>
 
-        <p class="date">SAMEDI 20 FÉVRIER 2027</p>
-        <p class="time">À PARTIR DE 19 H 00</p>
+        <div class="details-box">
+          <div class="info">
+            <svg class="info-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            <div>
+              <p class="date">SAMEDI 20 FÉVRIER 2027</p>
+              <p class="time">À PARTIR DE 19 H 00</p>
+            </div>
+          </div>
+          <div class="info">
+            <svg class="info-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            <div>
+              <p class="venue">SALLE DES FÊTES DE BOU</p>
+              <p class="address">8 Rue du Puits de l'Orme<br>45430 Bou, France</p>
+            </div>
+          </div>
+        </div>
 
-        <p class="venue">SALLE DES FÊTES DE BOU</p>
-        <p class="address">8 Rue du Puits de l'Orme<br>45430 Bou, France</p>
-
-        <a class="btn btn-secondary"
+        <div class="cta-deco">
+          <span class="sg-mini" aria-hidden="true">○ △ □</span>
+          <a class="btn btn-secondary"
            href="https://www.google.com/maps/search/?api=1&amp;query=8+Rue+du+Puits+de+l%27Orme%2C+45430+Bou%2C+France"
            target="_blank" rel="noopener noreferrer">
           <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
           VOIR L'ITINÉRAIRE
-        </a>
+          </a>
+          <span class="sg-mini" aria-hidden="true">○ △ □</span>
+        </div>
 
         <div class="dresscode">
-          <p class="dresscode-title">DRESS CODE : SQUID GAME</p>
-          <p class="dresscode-text">Les tenues inspirées de Squid Game sont vivement encouragées.</p>
+          <svg class="dress-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6c3.6 0 6.2 2.7 6.2 6.4 0 2.4-1 4.3-2.5 5.5.8.6 1.3 1.5 1.3 2.5v3.3c0 .8-.7 1.5-1.5 1.5H8.5c-.8 0-1.5-.7-1.5-1.5V17c0-1 .5-1.9 1.3-2.5C6.8 13.3 5.8 11.4 5.8 9c0-3.7 2.6-6.4 6.2-6.4z"/><path d="M12 9.4l2.8 4.7H9.2L12 9.4z"/></svg>
+          <div>
+            <p class="dresscode-title">DRESS CODE : <span class="brush">SQUID GAME</span></p>
+            <p class="dresscode-text">Les tenues inspirées de Squid Game sont vivement encouragées.</p>
+          </div>
         </div>
+
+        <p class="challenge">Prêts à relever le défi ?</p>
 
         <div class="rsvp-form">
           <p class="rsvp-form-title">Qui vient ?</p>

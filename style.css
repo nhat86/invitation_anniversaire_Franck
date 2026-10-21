@@ -12,6 +12,7 @@
   --grey: #BDBDBD;
   --font-title: "Archivo", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-marker: "Permanent Marker", "Segoe UI", cursive;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -315,6 +316,8 @@ body::before {
 .scene-card { padding: 2.5rem 1rem 3rem; }
 
 .card {
+  position: relative;
+  overflow: hidden;
   width: 100%;
   max-width: 430px;
   background: linear-gradient(180deg, #101010, #0a0a0a);
@@ -323,7 +326,7 @@ body::before {
   box-shadow:
     0 0 40px rgba(255, 22, 136, 0.22),
     inset 0 0 60px rgba(255, 22, 136, 0.04);
-  padding: 2.4rem 1.6rem 2.2rem;
+  padding: 3.4rem 1.6rem 2.2rem;
   text-align: center;
   opacity: 0;
   transform: translateY(18px) scale(0.98);
@@ -331,13 +334,49 @@ body::before {
 }
 .scene-card.is-visible .card { opacity: 1; transform: none; }
 
+/* Tag « affiche » incliné en haut à gauche */
+.card-tag {
+  position: absolute;
+  top: 1rem;
+  left: 1.1rem;
+  font-family: var(--font-marker);
+  font-size: 0.66rem;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--pink);
+  text-shadow: 0 0 8px rgba(255, 22, 136, 0.65);
+  transform: rotate(-8deg);
+}
+
+/* Symboles ○ △ □ repositionnés en haut à droite (comme l'affiche) */
+.card > .symbols {
+  position: absolute;
+  top: 1.15rem;
+  right: 1.1rem;
+  margin: 0;
+  gap: 0.55rem;
+}
+.card > .symbols svg { width: 15px; height: 15px; }
+
 .card .invite-label { margin-bottom: 0.35rem; }
 
 .invite-sub {
-  font-size: 0.9rem;
-  font-style: italic;
-  color: var(--grey);
+  font-family: var(--font-marker);
+  font-size: 1.05rem;
+  color: var(--pink);
+  text-shadow: 0 0 10px rgba(255, 22, 136, 0.5);
   margin-bottom: 2.4rem;
+}
+
+/* Texte façon marqueur avec souligné griffonné */
+.brush {
+  font-family: var(--font-marker);
+  font-style: normal;
+  color: var(--pink);
+  font-size: 1.06em;
+  text-shadow: 0 0 10px rgba(255, 22, 136, 0.6);
+  padding-bottom: 0.32em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='9' viewBox='0 0 120 9'%3E%3Cpath d='M3 6 Q 32 2 62 6 T 117 4' fill='none' stroke='%23FF1688' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat bottom center / 100% 0.42em;
 }
 
 .name {
@@ -356,6 +395,10 @@ body::before {
 }
 
 .age {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
   font-family: var(--font-title);
   font-weight: 700;
   font-size: 1.05rem;
@@ -365,6 +408,14 @@ body::before {
   margin-top: 0.35rem;
   text-shadow: 0 0 10px rgba(255, 22, 136, 0.6);
 }
+.age::before, .age::after {
+  content: "";
+  width: 34px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--pink));
+  box-shadow: 0 0 6px rgba(255, 22, 136, 0.6);
+}
+.age::after { background: linear-gradient(90deg, var(--pink), transparent); }
 
 .amp {
   font-family: var(--font-title);
@@ -400,6 +451,35 @@ body::before {
   line-height: 1.6;
   margin-bottom: 1.8rem;
 }
+
+/* ---------- Bloc date / lieu façon affiche ---------- */
+.details-box {
+  border: 1px solid rgba(255, 22, 136, 0.38);
+  border-radius: 12px;
+  background: rgba(255, 22, 136, 0.035);
+  box-shadow: inset 0 0 18px rgba(255, 22, 136, 0.05);
+  margin-bottom: 1.6rem;
+}
+.info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  padding: 0.95rem 1.1rem;
+}
+.info + .info { border-top: 1px solid rgba(255, 22, 136, 0.22); }
+.info-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(255, 22, 136, 0.7));
+}
+.details-box .time { margin-bottom: 0; }
+.details-box .address { margin-bottom: 0; }
 
 .date {
   font-family: var(--font-title);
@@ -460,6 +540,21 @@ body::before {
   box-shadow: 0 0 14px rgba(255, 22, 136, 0.18), inset 0 0 12px rgba(255, 22, 136, 0.06);
   margin-bottom: 1.7rem;
 }
+.cta-deco {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-bottom: 1.7rem;
+}
+.cta-deco .btn-secondary { margin-bottom: 0; }
+.sg-mini {
+  color: var(--pink);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-shadow: 0 0 8px rgba(255, 22, 136, 0.7);
+  white-space: nowrap;
+}
 .btn-secondary:hover, .btn-secondary:focus-visible {
   background: rgba(255, 22, 136, 0.12);
   box-shadow: 0 0 24px rgba(255, 22, 136, 0.45);
@@ -485,7 +580,29 @@ body::before {
 }
 
 /* ---------- Dress code ---------- */
-.dresscode { margin-bottom: 1.8rem; }
+.dresscode {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  border: 1px solid rgba(255, 22, 136, 0.4);
+  border-radius: 12px;
+  padding: 0.95rem 1.05rem;
+  margin-bottom: 1.6rem;
+  background: rgba(255, 22, 136, 0.04);
+  box-shadow: inset 0 0 18px rgba(255, 22, 136, 0.05);
+}
+.dress-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px rgba(255, 22, 136, 0.7));
+}
+.dresscode .brush { font-size: 1.15em; }
 .dresscode-title {
   font-family: var(--font-title);
   font-weight: 700;
@@ -500,6 +617,29 @@ body::before {
   line-height: 1.55;
   margin-top: 0.4rem;
 }
+
+/* ---------- « Prêts à relever le défi ? » ---------- */
+.challenge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  font-family: var(--font-title);
+  font-weight: 900;
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--pink);
+  text-shadow: 0 0 10px rgba(255, 22, 136, 0.6);
+  margin-bottom: 1.4rem;
+}
+.challenge::before, .challenge::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 22, 136, 0.7));
+}
+.challenge::after { background: linear-gradient(90deg, rgba(255, 22, 136, 0.7), transparent); }
 
 .deadline {
   font-size: 0.85rem;
@@ -826,7 +966,7 @@ body::before {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 380px) {
-  .card { padding: 2rem 1.2rem 1.8rem; }
+  .card { padding: 3rem 1.2rem 1.8rem; }
   .btn { font-size: 0.8rem; padding: 0.9rem 1.2rem; }
 }
 
