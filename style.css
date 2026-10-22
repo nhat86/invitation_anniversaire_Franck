@@ -594,8 +594,8 @@ body::before {
 
 .date {
   font-family: var(--font-title);
-  font-weight: 900;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 0.97rem;
   letter-spacing: 0.12em;
   color: var(--white);
 }
@@ -612,7 +612,7 @@ body::before {
 .venue {
   font-family: var(--font-title);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.97rem;
   letter-spacing: 0.14em;
   color: var(--white);
 }
