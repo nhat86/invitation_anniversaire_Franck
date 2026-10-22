@@ -444,7 +444,7 @@ body::before {
   padding-bottom: 0.32em;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='9' viewBox='0 0 120 9'%3E%3Cpath d='M3 6 Q 32 2 62 6 T 117 4' fill='none' stroke='%23FF1688' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat bottom center / 100% 0.42em;
 }
-
+.tagline-box { margin-bottom: 1.8rem; }
 .name {
   font-family: var(--font-title);
   font-weight: 900;
@@ -561,7 +561,6 @@ body::before {
   font-style: italic;
   color: var(--pink-light);
   line-height: 1.6;
-  margin-bottom: 1.8rem;
 }
 
 /* ---------- Bloc date / lieu façon affiche ---------- */
@@ -877,7 +876,7 @@ body::before {
   color: var(--grey);
   margin-top: 1.1rem;
   line-height: 1.5;
-  white-space: nowrap;
+  text-wrap: wrap;
 }
 .deadline strong { color: var(--white); font-weight: 600; }
 
@@ -1197,6 +1196,43 @@ body::before {
 .admin-link.danger:hover { color: #ff6b6b; }
 
 /* ---------- Responsive ---------- */
+/* ---------- Mobile ≤ 430 px : tout doit tenir ---------- */
+@media (max-width: 430px) {
+  /* Garde tireur : se superpose au coin du bouton au lieu de le compresser */
+  .shooter-row { position: relative; display: block; }
+  .shooter-row .btn-primary {
+    width: 100%;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .guard-shooter {
+    position: absolute;
+    left: -2px;
+    top: -32px;
+    width: 56px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  /* Garde du code réduit */
+  .gate-guard { width: 56px; }
+  /* Infos date/lieu plus compactes */
+  .info { padding: 0.8rem 0.7rem; gap: 0.7rem; }
+  .info-icon { width: 24px; height: 24px; }
+  .date { font-size: 0.92rem; letter-spacing: 0.08em; }
+  .time { font-size: 0.85rem; }
+  /* Symboles autour du bouton itinéraire plus discrets */
+  .sg-mini { font-size: 0.55rem; letter-spacing: 0.15em; }
+  .cta-deco { gap: 0.4rem; }
+  /* Textes en une ligne : un peu plus petits */
+  .deadline { font-size: 0.72rem; }
+  .challenge { font-size: 0.68rem; letter-spacing: 0.1em; }
+  .hint { font-size: 0.64rem; letter-spacing: 0.14em; }
+  /* Tag coin légèrement réduit */
+  .card-tag { font-size: 0.58rem; }
+}
+
 @media (max-width: 380px) {
   .card { padding: 3rem 1.2rem 1.8rem; }
   .btn { font-size: 0.8rem; padding: 0.9rem 1.2rem; }
