@@ -377,14 +377,26 @@ const RSVP_INTRO_NO =
   const gateGuard = document.querySelector(".gate-guard");
   let audioCtx = null;
 
+  /* Contexte audio : créé/réveillé pendant un geste utilisateur
+     (exigé par les navigateurs mobiles). */
+  function ensureAudio() {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    } catch (e) { return null; }
+  }
+  document.addEventListener("pointerdown", function () { ensureAudio(); });
+
   /* Son de tir synthétisé (bruit blanc filtré, décroissance rapide) —
      aucun fichier audio nécessaire. */
   function gunshot() {
+    const audioCtxLocal = ensureAudio();
+    if (!audioCtxLocal) return;
+    const audioCtx = audioCtxLocal;
     try {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return;
-      if (!audioCtx) audioCtx = new AC();
-      if (audioCtx.state === "suspended") audioCtx.resume();
       const dur = 0.3;
       const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * dur, audioCtx.sampleRate);
       const d = buf.getChannelData(0);
@@ -483,13 +495,12 @@ const RSVP_INTRO_NO =
     if (e.key === "Enter") {
       e.preventDefault();
       openEnvelope();
-      return;
     }
-    // Un coup de feu à chaque caractère tapé (ou effacé)
-    if (e.key.length === 1 || e.key === "Backspace") gunshot();
   });
   codeInput.addEventListener("input", function () {
     codeError.hidden = true;
+    // Un coup de feu à chaque caractère tapé (ou effacé)
+    gunshot();
   });
 
   /* ---------- Ouverture de l'enveloppe ---------- */
